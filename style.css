@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&family=Shippori+Mincho&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: #050505; /* ดำสนิท */
+    color: white;
+    font-family: 'Sarabun', sans-serif;
+    overflow: hidden; /* ป้องกันการเลื่อนหน้าจอปกติ */
+    touch-action: none; /* ควบคุม touch เอง */
+}
+
+/* --- Intro Screen --- */
+#intro-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #000;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    z-index: 100;
+    transition: opacity 2s ease-in-out;
+}
+
+.intro-text p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    opacity: 0;
+    animation: fadeInText 2s forwards;
+    text-align: center;
+}
+.intro-text p:nth-child(2) { animation-delay: 2s; }
+.intro-text p:nth-child(3) { animation-delay: 4s; }
+
+.jp-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.5rem;
+    color: #ff7eb3;
+    margin-top: 30px;
+    opacity: 0;
+    animation: fadeInText 2s forwards 6s;
+    text-align: center;
+}
+.intro-text h1 {
+    font-size: 1.8rem;
+    font-weight: 400;
+    opacity: 0;
+    animation: fadeInText 2s forwards 7s;
+    text-align: center;
+}
+
+#enter-btn {
+    margin-top: 40px;
+    padding: 12px 30px;
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    font-family: inherit;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeInText 2s forwards 9s;
+    transition: background 0.3s;
+}
+#enter-btn:hover { background: rgba(255,255,255,0.2); }
+
+@keyframes fadeInText { to { opacity: 1; } }
+
+/* --- Main Room --- */
+#main-room {
+    position: relative;
+    width: 100vw; height: 100vh;
+    overflow-x: auto; /* ให้ไถซ้ายขวาได้ */
+    overflow-y: hidden;
+}
+
+#sky-canvas {
+    position: relative;
+    width: 300vw; /* กว้าง 3 เท่าของจอ เพื่อให้มีพื้นที่แขวนเยอะๆ */
+    height: 100vh;
+    background: radial-gradient(circle at center, #111 0%, #000 100%);
+}
+
+/* เชือกที่ขึงด้านบน */
+#sky-canvas::before {
+    content: ''; position: absolute;
+    top: 20px; left: 0; width: 100%; height: 2px;
+    background: rgba(255,255,255,0.1);
+}
+
+/* กระดาษที่ห้อยอยู่ */
+.tanzaku {
+    position: absolute;
+    width: 60px; height: 180px;
+    top: 20px;
+    transform-origin: top center;
+    box-shadow: 2px 5px 15px rgba(0,0,0,0.5);
+    cursor: pointer;
+    transition: transform 0.3s;
+    /* แอนิเมชันพริ้วไหว */
+    animation: flutter linear infinite alternate;
+}
+.tanzaku img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
+
+/* เมื่อกดดูคำอธิษฐานใกล้ๆ */
+.tanzaku:active, .tanzaku:focus {
+    transform: scale(2.5) translateY(20px) !important;
+    z-index: 50;
+    animation: none;
+}
+
+@keyframes flutter {
+    0% { transform: rotate(-3deg); }
+    100% { transform: rotate(3deg); }
+}
+
+/* ปุ่มเขียนลอยๆ ด้านล่าง */
+#write-btn {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    padding: 15px 40px; border-radius: 30px;
+    background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    color: white; border: none; font-size: 1.2rem;
+    box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);
+    z-index: 10; cursor: pointer; font-family: 'Sarabun';
+}
+
+/* --- Modal วาดเขียน --- */
+#write-modal {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 200; transition: opacity 0.3s;
+}
+#write-modal.hidden { display: none; opacity: 0; }
+
+.modal-content {
+    background: #1a1a1a; padding: 20px; border-radius: 15px;
+    display: flex; flex-direction: column; align-items: center;
+    position: relative;
+}
+
+#close-modal {
+    position: absolute; top: 10px; right: 15px;
+    background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;
+}
+
+.color-picker { margin: 15px 0; display: flex; gap: 10px; }
+.color-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
+.color-btn.active { border-color: white; transform: scale(1.1); }
+
+#drawing-pad {
+    background: #ff7eb3; /* สีตั้งต้น */
+    border-radius: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+    touch-action: none; cursor: crosshair;
+}
+
+.modal-actions { margin-top: 20px; display: flex; gap: 10px; }
+.modal-actions button {
+    padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-family: inherit;
+}
+#clear-btn { background: #333; color: white; }
+#hang-btn { background: white; color: black; font-weight: bold; }
