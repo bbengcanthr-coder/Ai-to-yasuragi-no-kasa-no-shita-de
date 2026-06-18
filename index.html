@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>愛と安らぎの傘の下で | BCU</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <audio id="bg-music" src="your-music-file.mp3" loop></audio>
+
+    <div id="intro-screen">
+        <div class="intro-text">
+            <p>ในห้องหนึ่งที่มืดสนิทของมหาวิทยาลัยเบงจันทร์</p>
+            <p>รวมความรักของนักศึกษาเอาไว้</p>
+            <p>เข้ามาสิ...</p>
+            <h1 class="jp-title">愛と安らぎの傘の下で</h1>
+            <h1>ใต้ร่มความรักและพักพิงใจ</h1>
+        </div>
+        <button id="enter-btn">เดินเข้าสู่ห้อง</button>
+    </div>
+
+    <div id="main-room">
+        <div id="sky-canvas">
+            </div>
+        <button id="write-btn">เขียนคำอธิษฐาน</button>
+    </div>
+
+    <div id="write-modal" class="hidden">
+        <div class="modal-content">
+            <button id="close-modal">✕</button>
+            <h2>เขียนเรื่องราวของคุณ</h2>
+            <div class="color-picker">
+                <button class="color-btn active" data-color="#ff7eb3" style="background: #ff7eb3;"></button>
+                <button class="color-btn" data-color="#8fd3f4" style="background: #8fd3f4;"></button>
+                <button class="color-btn" data-color="#fdfbfb" style="background: #fdfbfb;"></button>
+                <button class="color-btn" data-color="#f6d365" style="background: #f6d365;"></button>
+            </div>
+            <canvas id="drawing-pad" width="300" height="450"></canvas>
+            <div class="modal-actions">
+                <button id="clear-btn">ลบเขียนใหม่</button>
+                <button id="hang-btn">แขวนกระดาษ</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
